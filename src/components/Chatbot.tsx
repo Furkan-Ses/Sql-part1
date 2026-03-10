@@ -8,6 +8,7 @@ export default function Chatbot() {
     { role: 'assistant', text: 'Merhaba! Ben Voicify yapay zeka asistanıyım. Size nasıl yardımcı olabilirim?' }
   ]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -19,10 +20,11 @@ export default function Chatbot() {
   }, [messages]);
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isTyping) return;
     
     setMessages(prev => [...prev, { role: 'user', text: input }]);
     setInput('');
+    setIsTyping(true);
     
     // Simulate AI response
     setTimeout(() => {
@@ -30,7 +32,8 @@ export default function Chatbot() {
         role: 'assistant', 
         text: 'Harika bir soru! Voicify asistanı tıpkı şu an benim sizinle yazıştığım gibi, müşterilerinizle telefonda akıcı ve doğal bir şekilde konuşur. İşletmenize özel fiyatları verebilir, randevu alabilir ve sıkça sorulan soruları yanıtlayabilir. Demomuzu denemek ister misiniz?' 
       }]);
-    }, 1000);
+      setIsTyping(false);
+    }, 1500);
   };
 
   return (
@@ -78,6 +81,13 @@ export default function Chatbot() {
                   {msg.text}
                 </div>
               ))}
+              {isTyping && (
+                <div className="max-w-[85%] rounded-2xl p-3 text-sm bg-slate-800 text-slate-400 self-start rounded-tl-sm border border-white/5 flex gap-1">
+                  <span className="w-2 h-2 rounded-full bg-slate-500 animate-bounce"></span>
+                  <span className="w-2 h-2 rounded-full bg-slate-500 animate-bounce" style={{animationDelay: '0.2s'}}></span>
+                  <span className="w-2 h-2 rounded-full bg-slate-500 animate-bounce" style={{animationDelay: '0.4s'}}></span>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
@@ -93,7 +103,7 @@ export default function Chatbot() {
                 />
                 <button
                   onClick={handleSend}
-                  disabled={!input.trim()}
+                  disabled={!input.trim() || isTyping}
                   className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white hover:bg-sky-400 transition-colors disabled:opacity-50 disabled:hover:bg-sky-500"
                 >
                   <Send className="w-4 h-4 -ml-0.5" />

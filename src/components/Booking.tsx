@@ -6,6 +6,9 @@ export default function Booking() {
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [company, setCompany] = useState('');
+  const [phone, setPhone] = useState('');
 
   const dates = [14, 15, 16, 17, 18];
   const times = ["09:00", "10:30", "13:00", "15:00", "16:30"];
@@ -86,15 +89,15 @@ export default function Booking() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">Ad Soyad</label>
-                  <input type="text" className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 transition-colors" placeholder="Ahmet Yılmaz" />
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 transition-colors" placeholder="Ahmet Yılmaz" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">Şirket Adı</label>
-                  <input type="text" className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 transition-colors" placeholder="Yılmaz Otomotiv" />
+                  <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 transition-colors" placeholder="Yılmaz Otomotiv" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">Telefon</label>
-                  <input type="tel" className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 transition-colors" placeholder="0555 555 55 55" />
+                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sky-500 transition-colors" placeholder="0555 555 55 55" />
                 </div>
                 <div className="flex gap-4 mt-6">
                   <button onClick={() => setStep(1)} className="px-6 py-4 rounded-xl border border-white/10 text-white font-medium hover:bg-white/5 transition-colors">
@@ -102,6 +105,8 @@ export default function Booking() {
                   </button>
                   <button
                     onClick={() => setStep(3)}
+                    disabled={!name || !company || !phone}
+                    style={{ opacity: (!name || !company || !phone) ? 0.5 : 1 }}
                     className="flex-1 py-4 rounded-xl bg-gradient-to-r from-sky-500 to-violet-600 text-white font-bold text-lg hover:shadow-[0_0_20px_-5px_rgba(14,165,233,0.5)] transition-all"
                   >
                     Randevuyu Onayla
@@ -123,7 +128,7 @@ export default function Booking() {
                 Size seçtiğiniz gün ve saatte ({selectedDate} Eylül, {selectedTime}) yapay zeka asistanımız telefon üzerinden ulaşarak canlı bir demo başlatacak.
               </p>
               <button
-                onClick={() => { setStep(1); setSelectedDate(null); setSelectedTime(null); }}
+                onClick={() => { setStep(1); setSelectedDate(null); setSelectedTime(null); setName(''); setCompany(''); setPhone(''); }}
                 className="px-6 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white font-medium transition-colors"
               >
                 Yeni Randevu Al

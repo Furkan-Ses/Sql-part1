@@ -33,6 +33,13 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      {isOpen && (
+        <div className="md:hidden bg-slate-900 border-b border-white/10 px-4 py-6 space-y-4">
+          <a href="#features" onClick={() => setIsOpen(false)} className="block text-base font-medium text-slate-300 hover:text-white transition-colors">Özellikler</a>
+          <a href="#booking" onClick={() => setIsOpen(false)} className="block text-base font-medium text-slate-300 hover:text-white transition-colors">Demoyu Dene</a>
+          <a href="#booking" onClick={() => setIsOpen(false)} className="block w-full text-center px-6 py-3 rounded-full bg-white text-slate-900 font-semibold hover:bg-sky-50 transition-colors">Hemen Başla</a>
+        </div>
+      )}
     </nav>
   );
 }
